@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-
-	"golang.org/x/exp/utf8string"
 )
+
+func Extraction(s string) string {
+	runes := []rune(s)
+	return fmt.Sprintf("%c%c%c%c", runes[0], runes[2], runes[4], runes[6])
+}
 
 func main() {
 	s := "パタトクカシーー"
-	s2 := utf8string.NewString(s)
-	fmt.Println(s2.Slice(0, 1) + s2.Slice(2, 3) + s2.Slice(4, 5) + s2.Slice(6, 7))
+	fmt.Println(Extraction(s))
 }
