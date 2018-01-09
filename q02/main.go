@@ -2,12 +2,16 @@ package main
 
 import "fmt"
 
-func main() {
-	s1 := []rune("パトカー")
-	s2 := []rune("タクシー")
-
-	for i := range s1 {
-		fmt.Printf("%c%c", s1[i], s2[i])
+func JoinInTurn(s1 string, s2 string) string {
+	runes1 := []rune(s1)
+	runes2 := []rune(s2)
+	var rval string
+	for i := 0; i < len(runes1); i++ {
+		rval += string(runes1[i]) + string(runes2[i])
 	}
-	fmt.Printf("\n")
+	return rval
+}
+
+func main() {
+	fmt.Println(JoinInTurn("パトカー", "タクシー"))
 }
