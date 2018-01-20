@@ -5,20 +5,25 @@ import (
 	"strings"
 )
 
-func main() {
-	s := "Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can."
+func WordIndex(s string) map[string]int {
+	s = strings.Replace(s, ".", "", -1)
 	words := strings.Split(s, " ")
 
-	words_index := make(map[string]int)
+	rval := make(map[string]int)
 
 	for i := 0; i < len(words); i++ {
 		runes := []rune(words[i])
-		switch i {
+		switch i + 1 {
 		case 1, 5, 6, 7, 8, 9, 15, 16, 19:
-			words_index[string(runes[0])] = i
+			rval[string(runes[0])] = i + 1
 		default:
-			words_index[string(runes[0])+string(runes[1])] = i
+			rval[string(runes[0])+string(runes[1])] = i + 1
 		}
 	}
-	fmt.Println(words_index)
+	return rval
+}
+
+func main() {
+	s := "Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can."
+	fmt.Println(WordIndex(s))
 }
