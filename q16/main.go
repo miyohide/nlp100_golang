@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer fp.Close()
 
 	sc := bufio.NewScanner(fp)
 	var lines []string
@@ -28,16 +29,30 @@ func main() {
 	lineSize := len(lines)
 	linePerFile := lineSize / *splitNum
 
-	for i := 0; i < *splitNum; i++ {
+	for i := 0; i < *splitNum-1; i++ {
 		f, err := os.Create(fmt.Sprintf("%02d.txt", i))
 		if err != nil {
 			panic(err)
 		}
+		defer f.Close()
+
 		w := bufio.NewWriter(f)
-		for j := 0; j < linePerFile; j++ {
-			w.WriteString(lines[(*splitNum)*i+j])
+		for j := linePerFile * i; j < linePerFile*(i+1); j++ {
+			w.WriteString(lines[j])
 			w.WriteString("\n")
 		}
 		w.Flush()
 	}
+	f, err := os.Create(fmt.Sprintf("%02d.txt", *splitNum-1))
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	w := bufio.NewWriter(f)
+	for i := linePerFile * (*splitNum - 1); i < linePerFile*(*splitNum); i++ {
+		w.WriteString(lines[i])
+		w.WriteString("\n")
+	}
+	w.Flush()
 }
